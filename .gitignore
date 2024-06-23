@@ -2,3 +2,9 @@
 !*/
 
 !.gitignore
+
+!*.sln
+!*.csproj
+!*.cs
+obj/
+bin/
