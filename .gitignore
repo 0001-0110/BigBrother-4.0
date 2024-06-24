@@ -3,6 +3,10 @@
 
 !.gitignore
 
+!Dockerfile
+!.dockerignore
+!docker-compose*.yml
+
 !*.sln
 !*.csproj
 !*.cs

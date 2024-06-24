@@ -1,0 +1,13 @@
+services:
+  big-brother:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - trek
+  trek:
+    build:
+      context: ./Trek
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
