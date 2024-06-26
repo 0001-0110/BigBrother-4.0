@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\InjectoPatronum\InjectoPatronum\InjectoPatronum.csproj" />
+    <ProjectReference Include="../InjectoPatronum/InjectoPatronum/InjectoPatronum.csproj" />
   </ItemGroup>
 
 </Project>
