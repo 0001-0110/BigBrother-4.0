@@ -20,4 +20,5 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 COPY ./BigBrother/appsettings.json ./
 EXPOSE 8080
-ENTRYPOINT ["dotnet", "BigBrother.dll", "./"]
+ENTRYPOINT ["dotnet", "BigBrother.dll" ]
+CMD [ "./" ]
