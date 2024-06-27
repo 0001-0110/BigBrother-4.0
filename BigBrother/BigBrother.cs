@@ -44,10 +44,22 @@ namespace BigBrother
 			// Technically, it is not necessary to do it again every time the program is run,
 			// But it does not create any problems either, so for now I'll do it like that
 			//commandHandlerCollection.BuildSlashCommands(client);
+
+			var command = new SlashCommandBuilder()
+				.WithName("hello")
+				.WithDescription("say hello")
+				.AddOption("user", ApplicationCommandOptionType.User, "The user to say hello to");
+			await _client.CreateGlobalApplicationCommandAsync(command.Build());
 		}
 
 		private async Task Client_SlashCommandExecuted(SocketSlashCommand command)
 		{
+			if (command.CommandName == "hello")
+			{
+				SocketGuildUser? user = command.Data.Options.FirstOrDefault()?.Value as SocketGuildUser;
+				await command.RespondAsync($"Hello, {user?.Mention ?? "World"}!");
+			}
+
 			//await commandHandlerCollection.ExecuteCommand(command);
 		}
 
