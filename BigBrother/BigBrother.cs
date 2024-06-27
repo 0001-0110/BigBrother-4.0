@@ -28,6 +28,8 @@ namespace BigBrother
 			_client.Log += Client_Log;
 			_client.Ready += Client_Ready;
 			_client.SlashCommandExecuted += Client_SlashCommandExecuted;
+			_client.Connected += async () => { await _logger.LogInfo("Connected"); };
+			_client.Disconnected += async (exception) => { await _logger.LogInfo("Disconnected", exception); };
 			_config = config;
 		}
 
@@ -45,21 +47,29 @@ namespace BigBrother
 			// But it does not create any problems either, so for now I'll do it like that
 			//commandHandlerCollection.BuildSlashCommands(client);
 
+			await _client.Rest.DeleteAllGlobalCommandsAsync();
+
 			var command = new SlashCommandBuilder()
-				.WithName("hello")
+				.WithName("hellotest")
 				.WithDescription("say hello")
 				.AddOption("user", ApplicationCommandOptionType.User, "The user to say hello to");
-			await _client.CreateGlobalApplicationCommandAsync(command.Build());
+			await _client.GetGuild(854747950973452288).CreateApplicationCommandAsync(command.Build());
+
+			await _client.Rest.DeleteAllGlobalCommandsAsync();
+			var command2 = new SlashCommandBuilder()
+				.WithName("truc2")
+				.WithDescription("truc")
+				.AddOption(new SlashCommandOptionBuilder()
+					.WithName("machinbidule")
+					.WithDescription("machin")
+					.WithType(ApplicationCommandOptionType.SubCommand));
+
+			await _client.GetGuild(854747950973452288).CreateApplicationCommandAsync(command2.Build());
+			await _logger.LogDebug("Created all commands");
 		}
 
 		private async Task Client_SlashCommandExecuted(SocketSlashCommand command)
 		{
-			if (command.CommandName == "hello")
-			{
-				SocketGuildUser? user = command.Data.Options.FirstOrDefault()?.Value as SocketGuildUser;
-				await command.RespondAsync($"Hello, {user?.Mention ?? "World"}!");
-			}
-
 			//await commandHandlerCollection.ExecuteCommand(command);
 		}
 
@@ -70,8 +80,6 @@ namespace BigBrother
 			// TODO Read token from config file
 			await _client.LoginAsync(TokenType.Bot, _config.Get<string>("Token"));
 			await _client.StartAsync();
-
-			await _logger.LogInfo("Succesfully connected");
 		}
 
 		public async Task Run()
@@ -85,7 +93,14 @@ namespace BigBrother
 				await _logger.LogCritical("Connection failed", exception);
 			}
 
-			await Task.Delay(-1, _cancellationTokenSource.Token);
+			try
+			{
+				await Task.Delay(-1, _cancellationTokenSource.Token);
+			}
+			catch (TaskCanceledException exception)
+			{
+				await _logger.LogDebug("Interupted loop", exception);
+			}
 		}
 
 		public async Task Disconnect()
