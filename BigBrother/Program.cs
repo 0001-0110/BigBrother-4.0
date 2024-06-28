@@ -1,4 +1,5 @@
-﻿using BigBrother.Configuration;
+﻿using BigBrother.CommandHandling;
+using BigBrother.Configuration;
 using BigBrother.Logger;
 using Discord;
 using InjectoPatronum;
@@ -13,8 +14,9 @@ namespace BigBrother
 				throw new ArgumentException("I am expecting a single argument: the path of the folder containing all the configuration files");
 
 			IDependencyInjector dependencyInjector = new DependencyInjector();
-			dependencyInjector.Map<ILogger, ConsoleLogger>(LogSeverity.Debug);
 			dependencyInjector.MapSingleton<IConfigurationService, JsonConfigurationService>(JsonConfigurationService.Load(Path.Combine(args[0], "appsettings.json")));
+			dependencyInjector.Map<ICommandHandlerService, SlashCommandHandlerService>();
+			dependencyInjector.Map<ILogger, ConsoleLogger>(LogSeverity.Debug);
 
 			BigBrother bot = dependencyInjector.Instantiate<BigBrother>()!;
 			// Graceful exit in case of keyboard interupt

@@ -1,4 +1,5 @@
-﻿using BigBrother.Configuration;
+﻿using BigBrother.CommandHandling;
+using BigBrother.Configuration;
 using BigBrother.Logger;
 using Discord;
 using Discord.WebSocket;
@@ -8,6 +9,7 @@ namespace BigBrother
 {
 	internal class BigBrother
 	{
+		private readonly ICommandHandlerService _commandHandlerService;
 		private readonly IConfigurationService _config;
 		private readonly ILogger _logger;
 
@@ -15,8 +17,9 @@ namespace BigBrother
 		private readonly DiscordSocketClient _client;
 		//private readonly CommandHandlerCollection commandHandlerCollection
 
-		public BigBrother(IDependencyInjector injector, IConfigurationService config, ILogger logger)
+		public BigBrother(IDependencyInjector injector, IConfigurationService config, ICommandHandlerService commandHandlerService, ILogger logger)
 		{
+			_commandHandlerService = commandHandlerService;
 			_config = config;
 			_logger = logger;
 
