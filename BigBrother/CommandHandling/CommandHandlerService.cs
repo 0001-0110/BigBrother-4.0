@@ -1,17 +1,28 @@
-﻿using BigBrother.Utilities;
+﻿using BigBrother.Configuration;
+using BigBrother.Extensions;
+using BigBrother.Utilities;
+using Discord.WebSocket;
 using InjectoPatronum;
 
 namespace BigBrother.CommandHandling
 {
-	internal abstract class CommandHandlerService : ICommandHandlerService
+	internal abstract class CommandHandlerService<TCommandHandler> : ICommandHandlerService where TCommandHandler : class, ICommandHandler
 	{
-		private readonly IEnumerable<CommandHandler> _commandHandlers;
+		protected readonly IDictionary<string, TCommandHandler> _commandHandlers;
 
 		protected CommandHandlerService(IDependencyInjector injector)
 		{
-			// Instantiate all classes with the correct attribute
-			// TODO Handle possible null values
-			_commandHandlers = AttributesUtilities.GetAnnotatedClasses<CommandHandlerAttribute>().Select(type => injector.Instantiate(type) as CommandHandler);
+			// Instantiate all sub command handler that are marked with this class as their parent
+			_commandHandlers = new Dictionary<string, TCommandHandler>();
+			_commandHandlers.Add(AttributesUtilities.GetAnnotatedClasses<CommandHandlerAttribute>().Select(type => {
+				var commandHandler = injector.Instantiate(type) as TCommandHandler;
+				ArgumentNullException.ThrowIfNull(commandHandler);
+				return KeyValuePair.Create(commandHandler.Name, commandHandler);
+			}));
 		}
+
+		public abstract Task CreateCommands(IGlobalConfig config, DiscordSocketClient client);
+
+		public abstract Task ExecuteCommand(ICommandRequest command);
 	}
 }

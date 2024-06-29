@@ -10,14 +10,15 @@ namespace BigBrother
 	internal class BigBrother
 	{
 		private readonly ICommandHandlerService _commandHandlerService;
-		private readonly IConfigurationService _config;
 		private readonly ILogger _logger;
+
+		private readonly IGlobalConfig _config;
 
 		private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 		private readonly DiscordSocketClient _client;
 		//private readonly CommandHandlerCollection commandHandlerCollection
 
-		public BigBrother(IDependencyInjector injector, IConfigurationService config, ICommandHandlerService commandHandlerService, ILogger logger)
+		public BigBrother(IDependencyInjector injector, ICommandHandlerService commandHandlerService, ILogger logger, IGlobalConfig config)
 		{
 			_commandHandlerService = commandHandlerService;
 			_config = config;
@@ -51,29 +52,12 @@ namespace BigBrother
 			//commandHandlerCollection.BuildSlashCommands(client);
 
 			await _client.Rest.DeleteAllGlobalCommandsAsync();
-
-			var command = new SlashCommandBuilder()
-				.WithName("hellotest")
-				.WithDescription("say hello")
-				.AddOption("user", ApplicationCommandOptionType.User, "The user to say hello to");
-			await _client.GetGuild(854747950973452288).CreateApplicationCommandAsync(command.Build());
-
-			await _client.Rest.DeleteAllGlobalCommandsAsync();
-			var command2 = new SlashCommandBuilder()
-				.WithName("truc2")
-				.WithDescription("truc")
-				.AddOption(new SlashCommandOptionBuilder()
-					.WithName("machinbidule")
-					.WithDescription("machin")
-					.WithType(ApplicationCommandOptionType.SubCommand));
-
-			await _client.GetGuild(854747950973452288).CreateApplicationCommandAsync(command2.Build());
-			await _logger.LogDebug("Created all commands");
+			await _commandHandlerService.CreateCommands(_config, _client);
 		}
 
-		private async Task Client_SlashCommandExecuted(SocketSlashCommand command)
+		private Task Client_SlashCommandExecuted(SocketSlashCommand command)
 		{
-			//await commandHandlerCollection.ExecuteCommand(command);
+			return _commandHandlerService.ExecuteCommand(new SlashCommandRequest(command));
 		}
 
 		private async Task Connect()
@@ -81,7 +65,7 @@ namespace BigBrother
 			await _logger.LogInfo("Connecting request received");
 
 			// TODO Read token from config file
-			await _client.LoginAsync(TokenType.Bot, _config.Get<string>("Token"));
+			await _client.LoginAsync(TokenType.Bot, _config.Token);
 			await _client.StartAsync();
 		}
 

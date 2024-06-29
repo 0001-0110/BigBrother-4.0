@@ -1,6 +1,7 @@
 ﻿namespace BigBrother.CommandHandling
 {
-	internal interface ICommandHandler
+	internal interface ICommandHandler : ICommandHandlerBase
 	{
+		
 	}
 }

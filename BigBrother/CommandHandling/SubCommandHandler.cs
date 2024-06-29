@@ -1,6 +1,9 @@
-﻿namespace BigBrother.CommandHandling
+﻿using InjectoPatronum;
+
+namespace BigBrother.CommandHandling
 {
-	internal abstract class SubCommandHandler : ISubCommandHandler
+	internal abstract class SubCommandHandler<TSubCommandHandler> : CommandHandlerBase<TSubCommandHandler>, ISubCommandHandler where TSubCommandHandler : class, ISubCommandHandler
 	{
+		protected SubCommandHandler(IDependencyInjector injector) : base(injector) { }
 	}
 }
