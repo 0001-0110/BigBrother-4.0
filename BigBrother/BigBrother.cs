@@ -51,7 +51,6 @@ namespace BigBrother
 			// But it does not create any problems either, so for now I'll do it like that
 			//commandHandlerCollection.BuildSlashCommands(client);
 
-			await _client.Rest.DeleteAllGlobalCommandsAsync();
 			await _commandHandlerService.CreateCommands(_config, _client);
 		}
 

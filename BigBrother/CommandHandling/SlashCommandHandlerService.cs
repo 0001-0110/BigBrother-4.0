@@ -13,6 +13,7 @@ namespace BigBrother.CommandHandling
 			foreach (IGuildConfig guildConfig in config.GuildConfigs)
 			{
 				SocketGuild guild = client.GetGuild(guildConfig.Id);
+				await guild.DeleteApplicationCommandsAsync();
 				foreach (string command in guildConfig.ActiveCommands)
 					await guild.CreateApplicationCommandAsync(_commandHandlers[command].CreateCommand(guild).Build());
 			}
