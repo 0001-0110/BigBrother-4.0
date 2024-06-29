@@ -13,7 +13,10 @@ namespace BigBrother.CommandHandling
 		{
 			foreach (IGuildConfig guildConfig in config.GuildConfigs)
 			{
-				await client.GetGuild(guildConfig.Id).BulkOverwriteApplicationCommandAsync(guildConfig.ActiveCommands.Select(command =>
+				// Test if the configuration files mentions that all commands should be active
+				IEnumerable<string> activeCommands = guildConfig.ActiveCommands.Contains("all") ? _commandHandlers.Keys : guildConfig.ActiveCommands;
+
+				await client.GetGuild(guildConfig.Id).BulkOverwriteApplicationCommandAsync(activeCommands.Select(command =>
 				{
 					if (!_commandHandlers.TryGetValue(command, out SlashCommandHandler? commandHandler))
 					{
