@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Discord.WebSocket;
 using InjectoPatronum;
 
 namespace BigBrother.CommandHandling
@@ -8,7 +7,7 @@ namespace BigBrother.CommandHandling
 	{
 		protected SlashCommandHandler(IDependencyInjector injector) : base(injector) { }
 
-		public virtual SlashCommandBuilder CreateCommand(SocketGuild guild)
+		public virtual SlashCommandBuilder CreateCommand()
 		{
 			return new SlashCommandBuilder()
 				.WithName(Name)

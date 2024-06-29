@@ -1,4 +1,5 @@
 ﻿using BigBrother.Configuration;
+using BigBrother.Logger;
 using Discord.WebSocket;
 using InjectoPatronum;
 
@@ -6,16 +7,22 @@ namespace BigBrother.CommandHandling
 {
 	internal class SlashCommandHandlerService : CommandHandlerService<SlashCommandHandler>
 	{
-		public SlashCommandHandlerService(IDependencyInjector injector) : base(injector) { }
+		public SlashCommandHandlerService(IDependencyInjector injector, ILogger logger) : base(injector, logger) { }
 
 		public override async Task CreateCommands(IGlobalConfig config, DiscordSocketClient client)
 		{
 			foreach (IGuildConfig guildConfig in config.GuildConfigs)
 			{
-				SocketGuild guild = client.GetGuild(guildConfig.Id);
-				await guild.DeleteApplicationCommandsAsync();
-				foreach (string command in guildConfig.ActiveCommands)
-					await guild.CreateApplicationCommandAsync(_commandHandlers[command].CreateCommand(guild).Build());
+				await client.GetGuild(guildConfig.Id).BulkOverwriteApplicationCommandAsync(guildConfig.ActiveCommands.Select(command =>
+				{
+					if (!_commandHandlers.TryGetValue(command, out SlashCommandHandler? commandHandler))
+					{
+						_logger.LogError($"The guild {client.GetGuild(guildConfig.Id).Name} ({guildConfig.Id}) requested a command that does not exist ({command})");
+						return null;
+					}
+
+					return commandHandler.CreateCommand().Build();
+				}).Where(commandHandler => commandHandler != null).ToArray());
 			}
 		}
 
