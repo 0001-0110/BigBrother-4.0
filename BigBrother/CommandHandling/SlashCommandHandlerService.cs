@@ -31,7 +31,7 @@ namespace BigBrother.CommandHandling
 
 		public override Task ExecuteCommand(ICommandRequest command)
 		{
-			return _commandHandlers[command.Name].Execute(command);
+			return _commandHandlers[command.Name].Call(command);
 		}
 	}
 }

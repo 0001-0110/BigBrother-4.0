@@ -5,6 +5,6 @@
 		string Name { get; }
 		string Description { get; }
 
-		Task Execute(ICommandRequest command);
+		Task Call(ICommandRequest command);
 	}
 }

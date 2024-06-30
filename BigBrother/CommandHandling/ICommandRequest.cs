@@ -8,5 +8,7 @@ namespace BigBrother.CommandHandling
 		SocketUser Sender { get; }
 
 		Task Respond(string text);
+
+		ICommandRequest GetSubCommand();
 	}
 }

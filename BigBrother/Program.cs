@@ -13,12 +13,12 @@ namespace BigBrother
 			if (args.Length != 1)
 				throw new ArgumentException("I am expecting a single argument: the path of the folder containing all the configuration files");
 
-			IDependencyInjector dependencyInjector = new DependencyInjector();
-			dependencyInjector.Map<ICommandHandlerService, SlashCommandHandlerService>();
-			dependencyInjector.Map<ILogger, ConsoleLogger>(LogSeverity.Debug);
+			IDependencyInjector injector = new DependencyInjector();
+			injector.MapSingleton<ILogger, ConsoleLogger>(injector.Instantiate<ConsoleLogger>(LogSeverity.Debug)!);
+			injector.MapSingleton<ICommandHandlerService, SlashCommandHandlerService>();
 
 			IGlobalConfig config = ConfigurationReader.GetConfig(Path.Combine(args[0], "appsettings.json"));
-			BigBrother bot = dependencyInjector.Instantiate<BigBrother>(config)!;
+			BigBrother bot = injector.Instantiate<BigBrother>(config)!;
 			// Graceful exit in case of keyboard interupt
 			Console.CancelKeyPress += async (sender, args) => { await bot.Disconnect(); Environment.Exit(0); };
 			await bot.Run();

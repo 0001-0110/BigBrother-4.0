@@ -17,12 +17,15 @@ namespace BigBrother.CommandHandling
 			_logger = logger;
 
 			// Instantiate all sub command handler that are marked with this class as their parent
-			_commandHandlers = new Dictionary<string, TCommandHandler>();
-			_commandHandlers.Add(AttributesUtilities.GetAnnotatedClasses<CommandHandlerAttribute>().Select(type => {
-				var commandHandler = injector.Instantiate(type) as TCommandHandler;
-				ArgumentNullException.ThrowIfNull(commandHandler);
-				return KeyValuePair.Create(commandHandler.Name, commandHandler);
-			}));
+			_commandHandlers = new Dictionary<string, TCommandHandler>
+			{
+				AttributesUtilities.GetAnnotatedClasses<CommandHandlerAttribute>().Select(type =>
+				{
+					var commandHandler = injector.Instantiate(type) as TCommandHandler;
+					ArgumentNullException.ThrowIfNull(commandHandler);
+					return KeyValuePair.Create(commandHandler.Name, commandHandler);
+				})
+			};
 		}
 
 		public abstract Task CreateCommands(IGlobalConfig config, DiscordSocketClient client);
