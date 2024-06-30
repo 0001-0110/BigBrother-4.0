@@ -87,7 +87,7 @@ namespace BigBrother
 			}
 			catch (TaskCanceledException exception)
 			{
-				await _logger.LogDebug("Interupted loop", exception);
+				await _logger.LogDebug("Interrupted loop", exception);
 			}
 		}
 
@@ -99,15 +99,8 @@ namespace BigBrother
 			await _client.StopAsync();
 			await _client.LogoutAsync();
 
-            _configurationService.Save(_config);
-
 			// Stop the endless loop that keeps the program alive
 			_cancellationTokenSource.Cancel();
 		}
-
-        ~BigBrother()
-        {
-            Disconnect().Wait();
-        }
 	}
 }

@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
-using BigBrother.Logger;
+﻿using BigBrother.Logger;
+using Newtonsoft.Json;
 
 namespace BigBrother.Configuration
 {
-    internal class JsonConfigurationService : IConfigurationService
-    {
+	internal class JsonConfigurationService : IConfigurationService
+	{
         private readonly ILogger _logger;
 
         private readonly string _path;
