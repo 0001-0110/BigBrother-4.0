@@ -11,18 +11,21 @@ namespace BigBrother
 	{
 		private readonly ICommandHandlerService _commandHandlerService;
 		private readonly ILogger _logger;
+        private readonly IConfigurationService _configurationService;
 
-		private readonly IGlobalConfig _config;
+        private readonly IGlobalConfig _config;
 
 		private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 		private readonly DiscordSocketClient _client;
 		//private readonly CommandHandlerCollection commandHandlerCollection
 
-		public BigBrother(IDependencyInjector injector, ICommandHandlerService commandHandlerService, ILogger logger, IGlobalConfig config)
+		public BigBrother(IDependencyInjector injector, IConfigurationService configurationService, ICommandHandlerService commandHandlerService, ILogger logger)
 		{
+            _configurationService = configurationService;
 			_commandHandlerService = commandHandlerService;
-			_config = config;
 			_logger = logger;
+
+			_config = configurationService.Load();
 
 			// TODO We may not need all intents
 			_client = new DiscordSocketClient(
@@ -34,7 +37,6 @@ namespace BigBrother
 			_client.SlashCommandExecuted += Client_SlashCommandExecuted;
 			_client.Connected += async () => { await _logger.LogInfo("Connected"); };
 			_client.Disconnected += async (exception) => { await _logger.LogInfo("Disconnected", exception); };
-			_config = config;
 		}
 
 		private async Task Client_Log(LogMessage logMessage)
@@ -96,8 +98,16 @@ namespace BigBrother
 			await _client.SetStatusAsync(UserStatus.Offline);
 			await _client.StopAsync();
 			await _client.LogoutAsync();
+
+            _configurationService.Save(_config);
+
 			// Stop the endless loop that keeps the program alive
 			_cancellationTokenSource.Cancel();
 		}
+
+        ~BigBrother()
+        {
+            Disconnect().Wait();
+        }
 	}
 }

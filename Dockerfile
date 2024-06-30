@@ -18,7 +18,7 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/sdk:8.0
 WORKDIR /app
 COPY --from=build-env /app/out .
-COPY ./BigBrotherConfig/appsettings.json ./
+COPY ./BigBrotherConfig/appsettings.json ./BigBrotherConfig/
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "BigBrother.dll" ]
-CMD [ "./" ]
+CMD [ "./BigBrotherConfig/" ]

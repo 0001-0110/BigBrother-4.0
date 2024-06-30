@@ -11,3 +11,5 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - trek
+    volumes:
+      - ./BigBrotherConfig/:/app/BigBrotherConfig/

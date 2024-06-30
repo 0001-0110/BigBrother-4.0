@@ -25,6 +25,7 @@ namespace BigBrother.Configuration
 		[JsonRequired]
 		public IEnumerable<JsonGuildConfig> _guildConfigs;
 
+        [JsonIgnore]
 		public IEnumerable<IGuildConfig> GuildConfigs => _guildConfigs;
 	}
 }
