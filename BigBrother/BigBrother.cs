@@ -47,7 +47,11 @@ namespace BigBrother
 		private async Task Client_Ready()
 		{
 			await _client.SetStatusAsync(UserStatus.Online);
+#if DEBUG
+			await _client.SetGameAsync("tests", type: ActivityType.Playing);
+#else
 			await _client.SetGameAsync("you", type: ActivityType.Watching);
+#endif
 
 			// Technically, it is not necessary to do it again every time the program is run,
 			// But it does not create any problems either, so for now I'll do it like that
