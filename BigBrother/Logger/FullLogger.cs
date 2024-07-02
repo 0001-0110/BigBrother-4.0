@@ -5,8 +5,8 @@ namespace BigBrother.Logger
 {
 	internal class FullLogger : ILogger
 	{
-		private readonly ILogger _consoleLogger;
-		private readonly ILogger _discordLogger;
+		private readonly ConsoleLogger _consoleLogger;
+		private readonly DiscordLogger _discordLogger;
 
 		public FullLogger(IDependencyInjector injector, LogSeverity severity)
 		{

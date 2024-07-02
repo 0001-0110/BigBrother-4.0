@@ -1,9 +1,10 @@
-﻿using BigBrother.Configuration;
+﻿using BigBrother.CommandHandling.CommandRequest;
+using BigBrother.Configuration;
 using Discord.WebSocket;
 
 namespace BigBrother.CommandHandling
 {
-	internal interface ICommandHandlerService
+    internal interface ICommandHandlerService
 	{
 		Task CreateCommands(IGlobalConfig config, DiscordSocketClient client);
 

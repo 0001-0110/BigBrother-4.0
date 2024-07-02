@@ -1,4 +1,5 @@
 ﻿using BigBrother.CommandHandling;
+using BigBrother.CommandHandling.CommandRequest;
 using BigBrother.Configuration;
 using BigBrother.Logger;
 using Discord;
@@ -19,7 +20,7 @@ namespace BigBrother
 		private readonly DiscordSocketClient _client;
 		//private readonly CommandHandlerCollection commandHandlerCollection
 
-		public BigBrother(IDependencyInjector injector, IConfigurationService configurationService, ICommandHandlerService commandHandlerService, ILogger logger)
+		public BigBrother(IConfigurationService configurationService, ICommandHandlerService commandHandlerService, ILogger logger)
 		{
             _configurationService = configurationService;
 			_commandHandlerService = commandHandlerService;

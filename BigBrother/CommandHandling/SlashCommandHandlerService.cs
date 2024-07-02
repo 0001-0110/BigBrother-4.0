@@ -1,11 +1,12 @@
-﻿using BigBrother.Configuration;
+﻿using BigBrother.CommandHandling.CommandRequest;
+using BigBrother.Configuration;
 using BigBrother.Logger;
 using Discord.WebSocket;
 using InjectoPatronum;
 
 namespace BigBrother.CommandHandling
 {
-	internal class SlashCommandHandlerService : CommandHandlerService<SlashCommandHandler>
+    internal class SlashCommandHandlerService : CommandHandlerService<SlashCommandHandler>
 	{
 		public SlashCommandHandlerService(IDependencyInjector injector, ILogger logger) : base(injector, logger) { }
 

@@ -1,6 +1,8 @@
-﻿namespace BigBrother.CommandHandling
+﻿using BigBrother.CommandHandling.CommandRequest;
+
+namespace BigBrother.CommandHandling
 {
-	internal interface ICommandHandlerBase
+    internal interface ICommandHandlerBase
 	{
 		string Name { get; }
 		string Description { get; }

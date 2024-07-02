@@ -1,10 +1,12 @@
 ﻿using BigBrother.CommandHandling;
+using BigBrother.CommandHandling.Attributes;
+using BigBrother.CommandHandling.CommandRequest;
 using BigBrother.Logger;
 using InjectoPatronum;
 
 namespace BigBrother.Commands.Reminder
 {
-	[SubCommandHandler(typeof(Reminder))]
+    [SubCommandHandler(typeof(Reminder))]
 	internal class ReminderAdd : SlashSubCommandHandler
 	{
 		public override string Name => "add";

@@ -13,10 +13,10 @@ namespace BigBrother
 			if (args.Length != 1)
 				throw new ArgumentException("I am expecting a single argument: the path of the folder containing all the configuration files");
 
-			IDependencyInjector injector = new DependencyInjector();
-			injector.MapSingleton<ILogger, ConsoleLogger>(injector.Instantiate<ConsoleLogger>(LogSeverity.Debug)!);
-            injector.MapSingleton<IConfigurationService, JsonConfigurationService>(Path.Combine(args[0], "appsettings.json"));
-			injector.MapSingleton<ICommandHandlerService, SlashCommandHandlerService>();
+			IDependencyInjector injector = new DependencyInjector()
+				.MapSingleton<ILogger, ConsoleLogger>(LogSeverity.Debug)
+				.MapSingleton<IConfigurationService, JsonConfigurationService>(Path.Combine(args[0], "appsettings.json"))
+				.MapSingleton<ICommandHandlerService, SlashCommandHandlerService>();
 
 			BigBrother bot = injector.Instantiate<BigBrother>()!;
 			// Graceful exit in case of keyboard interupt

@@ -1,11 +1,13 @@
-﻿using BigBrother.Extensions;
+﻿using BigBrother.CommandHandling.Attributes;
+using BigBrother.CommandHandling.CommandRequest;
+using BigBrother.Extensions;
 using BigBrother.Logger;
 using BigBrother.Utilities;
 using InjectoPatronum;
 
 namespace BigBrother.CommandHandling
 {
-	internal abstract class CommandHandlerBase<TSubCommandHandler> : ICommandHandlerBase where TSubCommandHandler : class, ISubCommandHandler
+    internal abstract class CommandHandlerBase<TSubCommandHandler> : ICommandHandlerBase where TSubCommandHandler : class, ISubCommandHandler
 	{
 		protected readonly ILogger _logger;
 
@@ -36,7 +38,7 @@ namespace BigBrother.CommandHandling
 		/// <returns></returns>
 		public Task Call(ICommandRequest command)
 		{
-			if (_subCommandHandlers.Count() == 0)
+			if (_subCommandHandlers.Count == 0)
 				return Execute(command);
 
 			ICommandRequest subCommand = command.GetSubCommand();

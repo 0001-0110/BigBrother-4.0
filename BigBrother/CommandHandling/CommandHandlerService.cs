@@ -1,4 +1,6 @@
-﻿using BigBrother.Configuration;
+﻿using BigBrother.CommandHandling.Attributes;
+using BigBrother.CommandHandling.CommandRequest;
+using BigBrother.Configuration;
 using BigBrother.Extensions;
 using BigBrother.Logger;
 using BigBrother.Utilities;
@@ -7,7 +9,7 @@ using InjectoPatronum;
 
 namespace BigBrother.CommandHandling
 {
-	internal abstract class CommandHandlerService<TCommandHandler> : ICommandHandlerService where TCommandHandler : class, ICommandHandler
+    internal abstract class CommandHandlerService<TCommandHandler> : ICommandHandlerService where TCommandHandler : class, ICommandHandler
 	{
 		protected readonly ILogger _logger;
 		protected readonly IDictionary<string, TCommandHandler> _commandHandlers;
