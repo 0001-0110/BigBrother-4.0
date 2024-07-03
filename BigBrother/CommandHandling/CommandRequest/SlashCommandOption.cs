@@ -61,7 +61,7 @@ namespace BigBrother.CommandHandling.CommandRequest
 
         public T? GetValue(ICommandRequest command)
         {
-            return (T)command.GetOption(_name).Value;
+            return (T?)command.GetOption(_name)?.Value;
         }
     }
 }

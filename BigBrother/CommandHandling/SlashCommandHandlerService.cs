@@ -10,7 +10,7 @@ namespace BigBrother.CommandHandling
 	{
 		public SlashCommandHandlerService(IDependencyInjector injector, ILogger logger) : base(injector, logger) { }
 
-		public override async Task CreateCommands(IGlobalConfig config, DiscordSocketClient client)
+        public override async Task CreateCommands(IGlobalConfig config, DiscordSocketClient client)
 		{
 			foreach (IGuildConfig guildConfig in config.GuildConfigs)
 			{

@@ -5,5 +5,7 @@
 		string Token { get; }
 
 		IEnumerable<IGuildConfig> GuildConfigs { get; }
-	}
+
+		IGuildConfig AddGuildConfig(ulong id);
+    }
 }

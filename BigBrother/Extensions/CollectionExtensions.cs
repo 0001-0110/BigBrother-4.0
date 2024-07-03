@@ -7,5 +7,10 @@
 			foreach (T item in items)
 				collection.Add(item);
 		}
+
+		public static T GetRandom<T>(this IEnumerable<T> enumerable)
+		{
+			return enumerable.ElementAt(new Random().Next(enumerable.Count()));
+		}
 	}
 }

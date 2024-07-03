@@ -10,6 +10,7 @@ namespace BigBrother.CommandHandling.CommandRequest
         // If this request is a subcommand, the return the name of the subcommand. If not, return the base command name
         public string Name => _subCommand?.Name ?? _command.CommandName;
         public SocketUser Sender => _command.User;
+        public SocketGuild? Guild => (_command.Channel as SocketGuildChannel)?.Guild;
 
         // Create a request
         public SlashCommandRequest(SocketSlashCommand command)
@@ -29,10 +30,12 @@ namespace BigBrother.CommandHandling.CommandRequest
             return _command.RespondAsync(text);
         }
 
-        public SocketSlashCommandDataOption GetOption(string name)
+        public SocketSlashCommandDataOption? GetOption(string name)
         {
             var options = _subCommand?.Options ?? _command.Data.Options;
-            return options.First(option => option.Name == name);
+            // If the option is not required and the user ommit it, then it won't be in the options list
+            // In this case, we return null
+            return options.FirstOrDefault(option => option.Name == name);
         }
 
         public ICommandRequest GetSubCommand()
