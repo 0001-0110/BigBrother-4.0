@@ -6,7 +6,7 @@ using InjectoPatronum;
 
 namespace BigBrother.Commands.Reminder
 {
-    [SubCommandHandler(typeof(Reminder))]
+    [SubCommandHandler<Reminder>()]
     internal class ReminderList : SlashSubCommandHandler
     {
         public override string Name => "list";

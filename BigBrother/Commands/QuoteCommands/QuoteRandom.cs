@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 
 namespace BigBrother.Commands.Quote
 {
-    [SubCommandHandler(typeof(Quote))]
+    [SubCommandHandler<Quote>()]
     internal class QuoteRandom : SlashSubCommandHandler
     {
         private readonly IConfigurationService _configurationService;
@@ -35,7 +35,7 @@ namespace BigBrother.Commands.Quote
             if (guild.GetChannel(config.QuoteChannel) is not IMessageChannel quoteChannel)
                 return null;
 
-            List<string> quotes = new List<string>();
+            List<string> quotes = [];
             IEnumerable<IMessage> messages = await quoteChannel.GetMessagesAsync(2000).FlattenAsync();
             foreach (IMessage message in messages.Where(message => quoteRegex.IsMatch(message.Content)))
                 quotes.Add(message.Content);

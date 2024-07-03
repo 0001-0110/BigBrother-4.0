@@ -10,7 +10,8 @@
 
 		public static T? GetRandom<T>(this IEnumerable<T> enumerable)
 		{
-			return enumerable.Count() == 0 ? default : enumerable.ElementAt(new Random().Next(enumerable.Count()));
+			// If the collection is empty, return default value
+			return !enumerable.Any() ? default : enumerable.ElementAt(new Random().Next(enumerable.Count()));
 		}
 	}
 }

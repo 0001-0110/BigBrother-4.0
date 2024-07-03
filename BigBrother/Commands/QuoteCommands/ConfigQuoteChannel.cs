@@ -9,7 +9,7 @@ using InjectoPatronum;
 
 namespace BigBrother.Commands.Quote
 {
-    [SubCommandHandler(typeof(ConfigQuote))]
+    [SubCommandHandler<ConfigQuote>()]
     internal class ConfigQuoteChannel : SlashSubCommandHandler
     {
         private readonly IConfigurationService _configurationService;

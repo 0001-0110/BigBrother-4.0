@@ -7,7 +7,7 @@ namespace BigBrother.CommandHandling.Attributes
     {
         public Type Parent { get; }
 
-        public SubCommandHandlerAttribute(Type parent)
+        protected SubCommandHandlerAttribute(Type parent)
         {
             if (!parent.HasInterface(typeof(ICommandHandlerBase)))
                 throw new ArgumentException("The given type is not a valid command handler");

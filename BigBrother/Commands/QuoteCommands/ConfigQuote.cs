@@ -2,12 +2,11 @@
 using BigBrother.CommandHandling.Attributes;
 using BigBrother.Commands.ConfigCommands;
 using BigBrother.Logger;
-using Discord;
 using InjectoPatronum;
 
 namespace BigBrother.Commands.QuoteCommands
 {
-    [SubCommandHandler(typeof(Config))]
+    [SubCommandHandler<Config>()]
     internal class ConfigQuote : SlashSubCommandHandler
     {
         public override string Name => "quote";
