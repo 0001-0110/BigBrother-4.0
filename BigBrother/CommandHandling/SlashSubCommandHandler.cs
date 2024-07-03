@@ -15,7 +15,7 @@ namespace BigBrother.CommandHandling
             return new SlashCommandOptionBuilder()
                 .WithName(Name)
                 .WithDescription(Description)
-                .WithType(ApplicationCommandOptionType.SubCommand)
+                .WithType(_subCommandHandlers.Count() == 0 ? ApplicationCommandOptionType.SubCommand : ApplicationCommandOptionType.SubCommandGroup)
                 .AddOptions(GetOptions());
         }
 

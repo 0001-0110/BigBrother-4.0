@@ -16,41 +16,35 @@ namespace BigBrother.Commands.Quote
     {
         private readonly IConfigurationService _configurationService;
 
-        private readonly Dictionary<ulong, ICollection<string>> _quotes;
-
         public override string Name => "random";
         public override string Description => "Get a random quote";
 
         public QuoteRandom(IDependencyInjector injector, IConfigurationService configurationService, ILogger logger) : base(injector, logger)
         {
             _configurationService = configurationService;
-
-            _quotes = new Dictionary<ulong, ICollection<string>>();
         }
 
-        private async Task LoadQuotes(SocketGuild guild)
+        private async Task<IEnumerable<string>?> LoadQuotes(SocketGuild guild)
         {
             Regex quoteRegex = new Regex("^(?:> )|(?:[\"“«].*[\"“»])");
 
             IGuildConfig? config = _configurationService.Load().GuildConfigs.FirstOrDefault(guildConfig => guildConfig.Id == guild.Id);
             if (config == null || config.QuoteChannel == 0)
-                return;
+                return null;
 
             if (guild.GetChannel(config.QuoteChannel) is not IMessageChannel quoteChannel)
-                return;
+                return null;
 
-            _quotes[guild.Id] = new List<string>();
+            List<string> quotes = new List<string>();
             IEnumerable<IMessage> messages = await quoteChannel.GetMessagesAsync(2000).FlattenAsync();
             foreach (IMessage message in messages.Where(message => quoteRegex.IsMatch(message.Content)))
-                    _quotes[guild.Id]!.Add(message.Content);
+                quotes.Add(message.Content);
+            return quotes;
         }
 
         private async Task<string?> GetRandomQuote(SocketGuild guild)
         {
-            if (!_quotes.ContainsKey(guild.Id))
-                await LoadQuotes(guild);
-
-            return _quotes[guild.Id].GetRandom();
+            return (await LoadQuotes(guild))?.GetRandom();
         }
 
         protected override async Task Execute(ICommandRequest command)

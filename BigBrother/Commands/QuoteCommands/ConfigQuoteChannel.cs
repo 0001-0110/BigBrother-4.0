@@ -1,6 +1,7 @@
 ﻿using BigBrother.CommandHandling;
 using BigBrother.CommandHandling.Attributes;
 using BigBrother.CommandHandling.CommandRequest;
+using BigBrother.Commands.QuoteCommands;
 using BigBrother.Configuration;
 using BigBrother.Logger;
 using Discord;
@@ -8,8 +9,8 @@ using InjectoPatronum;
 
 namespace BigBrother.Commands.Quote
 {
-    [SubCommandHandler(typeof(Quote))]
-    internal class QuoteChannel : SlashSubCommandHandler
+    [SubCommandHandler(typeof(ConfigQuote))]
+    internal class ConfigQuoteChannel : SlashSubCommandHandler
     {
         private readonly IConfigurationService _configurationService;
 
@@ -18,7 +19,7 @@ namespace BigBrother.Commands.Quote
 
         private readonly SlashCommandOption<IChannel> _channelOption = new SlashCommandOption<IChannel>("channel", "The channel used to fetch quotes", true);
 
-        public QuoteChannel(IDependencyInjector injector, IConfigurationService configurationService, ILogger logger) : base(injector, logger)
+        public ConfigQuoteChannel(IDependencyInjector injector, IConfigurationService configurationService, ILogger logger) : base(injector, logger)
         {
             _configurationService = configurationService;
         }

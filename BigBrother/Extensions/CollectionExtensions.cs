@@ -8,9 +8,9 @@
 				collection.Add(item);
 		}
 
-		public static T GetRandom<T>(this IEnumerable<T> enumerable)
+		public static T? GetRandom<T>(this IEnumerable<T> enumerable)
 		{
-			return enumerable.ElementAt(new Random().Next(enumerable.Count()));
+			return enumerable.Count() == 0 ? default : enumerable.ElementAt(new Random().Next(enumerable.Count()));
 		}
 	}
 }

@@ -32,6 +32,7 @@ namespace BigBrother.CommandHandling
 
 		public override Task ExecuteCommand(ICommandRequest command)
 		{
+			_logger.LogInfo($"Received command request {command}");
 			return _commandHandlers[command.Name].Call(command);
 		}
 	}

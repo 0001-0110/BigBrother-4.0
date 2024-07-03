@@ -3,7 +3,7 @@
 namespace BigBrother.CommandHandling.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public class SubCommandHandlerAttribute : Attribute
+    internal class SubCommandHandlerAttribute : Attribute
     {
         public Type Parent { get; }
 
@@ -14,5 +14,10 @@ namespace BigBrother.CommandHandling.Attributes
 
             Parent = parent;
         }
+    }
+
+    internal class SubCommandHandlerAttribute<TCommandHandler> : SubCommandHandlerAttribute where TCommandHandler : ICommandHandlerBase
+    {
+        public SubCommandHandlerAttribute() : base(typeof(TCommandHandler)) { }
     }
 }
