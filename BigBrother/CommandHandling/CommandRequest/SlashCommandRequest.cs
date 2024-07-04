@@ -42,5 +42,18 @@ namespace BigBrother.CommandHandling.CommandRequest
         {
             return new SlashCommandRequest(_command, _subCommand?.Options.First() ?? _command.Data.Options.First());
         }
+
+        public override string ToString()
+        {
+            // TODO All of this function is ugly and need to be cleaned
+            List<string> subCommands = [_command.CommandName];
+            for (SocketSlashCommandDataOption? command = _subCommand?.Options.FirstOrDefault() ?? _command.Data.Options.FirstOrDefault();
+                command != null; command = command.Options.FirstOrDefault())
+            {
+                subCommands.Add(command.Name);
+            }
+
+            return string.Join(' ', subCommands);
+        }
     }
 }
