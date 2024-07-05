@@ -1,5 +1,4 @@
-﻿using BigBrother.CommandHandling.CommandRequest;
-using BigBrother.Extensions;
+﻿using BigBrother.Extensions;
 using BigBrother.Logger;
 using Discord;
 using InjectoPatronum;

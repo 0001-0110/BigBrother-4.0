@@ -1,6 +1,7 @@
-﻿using Discord;
+﻿using BigBrother.CommandHandling.CommandRequest;
+using Discord;
 
-namespace BigBrother.CommandHandling.CommandRequest
+namespace BigBrother.CommandHandling
 {
     internal abstract class SlashCommandOption
     {

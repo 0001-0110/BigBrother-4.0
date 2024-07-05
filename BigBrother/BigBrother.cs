@@ -4,11 +4,10 @@ using BigBrother.Configuration;
 using BigBrother.Logger;
 using Discord;
 using Discord.WebSocket;
-using InjectoPatronum;
 
 namespace BigBrother
 {
-	internal class BigBrother
+    internal class BigBrother
 	{
 		private readonly ICommandHandlerService _commandHandlerService;
 		private readonly ILogger _logger;
