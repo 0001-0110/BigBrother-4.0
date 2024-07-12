@@ -3,6 +3,8 @@
 
 !.gitignore
 
+!.editorconfig
+
 !Dockerfile
 !.dockerignore
 !docker-compose*.yml
