@@ -36,7 +36,7 @@ namespace BigBrother.MessageHandling
             {
                 model = "llama3",
                 stream = false,
-                prompt = "Why is the sky blue?"
+                prompt = message.Content
             });
             StringContent content = new StringContent(body, Encoding.UTF8, "application/json");
 
