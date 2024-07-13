@@ -1,15 +1,16 @@
 ﻿using BigBrother.Extensions;
+using BigBrother.Logger;
 using BigBrother.Messages;
 using Discord.WebSocket;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Text;
-using BigBrother.Logger;
 
 namespace BigBrother.MessageHandling
 {
     internal class SelfMentionHandler : IMessageHandler
     {
+        private readonly string _prompt = "You are a pirate";
+
         private class ApiResponse
         {
             [JsonProperty("response")]
@@ -25,18 +26,15 @@ namespace BigBrother.MessageHandling
             _logger = logger;
         }
 
-        public async Task Handle(SocketMessage message)
+        private async Task Reply(SocketMessage message)
         {
-            if (!message.Mentions(Client.CurrentUser))
-                return;
-
-            _logger.LogDebug("Received message");
+            await _logger.LogDebug("Received message");
             string url = "http://ollama:11434/api/generate";
             string body = JsonConvert.SerializeObject(new
             {
                 model = "llama3",
                 stream = false,
-                prompt = message.Content
+                prompt = $"{_prompt}. A user sent you this message: {message.Content}"
             });
             StringContent content = new StringContent(body, Encoding.UTF8, "application/json");
 
@@ -60,6 +58,15 @@ namespace BigBrother.MessageHandling
 
                 await message.Channel.SendMessageAsync(truc);
             }
+        }
+
+        public Task Handle(SocketMessage message)
+        {
+            if (!message.Mentions(Client.CurrentUser))
+                return Task.CompletedTask;
+
+            Task.Run(async () => await Reply(message));
+            return Task.CompletedTask;
         }
     }
 }
