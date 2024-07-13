@@ -1,14 +1,12 @@
 services:
-  g4f:
-    image: hlohaus789/g4f:latest
+  ollama:
+    build:
+      context: ./LlamaDrama
+      dockerfile: Dockerfile
     ports:
-      #- "8080:8080"
-      - "1337:1337"
-      #- "7900:7900"
-    shm_size: "2g"
+      - "11434:11434"
     volumes:
-      - ./har_and_cookies:/app/har_and_cookies
-      - ./generated_images:/app/generated_images
+      - ./LlamaDrama/ollama:/root/.ollama
   trek:
     build:
       context: ./Trek
@@ -21,6 +19,6 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - trek
-      - g4f
+      - ollama
     volumes:
       - ./BigBrotherConfig/:/app/BigBrotherConfig/

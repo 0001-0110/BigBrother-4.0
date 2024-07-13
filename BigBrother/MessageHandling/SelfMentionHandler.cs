@@ -10,6 +10,12 @@ namespace BigBrother.MessageHandling
 {
     internal class SelfMentionHandler : IMessageHandler
     {
+        private class ApiResponse
+        {
+            [JsonProperty("response")]
+            public string Content;
+        }
+
         private readonly ILogger _logger;
 
         private static DiscordSocketClient Client => BigBrother.Client;
@@ -24,16 +30,13 @@ namespace BigBrother.MessageHandling
             if (!message.Mentions(Client.CurrentUser))
                 return;
 
-            string url = "http://localhost:1337/v1";
-            // Serialize the payload to JSON
+            _logger.LogDebug("Received message");
+            string url = "http://ollama:11434/api/generate";
             string body = JsonConvert.SerializeObject(new
             {
-                model = "gpt-3.5-turbo-16k",
+                model = "llama3",
                 stream = false,
-                messages = new[]
-                {
-                    new { role = "assistant", content = "What can you do?" }
-                }
+                prompt = "Why is the sky blue?"
             });
             StringContent content = new StringContent(body, Encoding.UTF8, "application/json");
 
@@ -49,18 +52,13 @@ namespace BigBrother.MessageHandling
                     return;
                 }
 
-                // Extract the 'choices' array
-                if (JsonConvert.DeserializeObject<JObject>(await response.Content.ReadAsStringAsync())?["choices"] is not JArray choices)
+                await _logger.LogError("g4f success");
+
+                var truc = JsonConvert.DeserializeObject<ApiResponse>(await response.Content.ReadAsStringAsync())?.Content;
+                if (response == null)
                     return;
 
-                foreach (JToken choice in choices)
-                {
-                    string? messageContent = choice["message"]?["content"]?.ToString();
-                    if (!string.IsNullOrEmpty(messageContent))
-                        return;
-
-                    await message.Channel.SendMessageAsync(messageContent);
-                }
+                await message.Channel.SendMessageAsync(truc);
             }
         }
     }
