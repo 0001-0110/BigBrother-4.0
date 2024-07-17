@@ -1,4 +1,4 @@
-﻿using BigBrother.Extensions;
+﻿using UtilityMinistry.Extensions;
 
 namespace BigBrother.CommandHandling.Attributes
 {

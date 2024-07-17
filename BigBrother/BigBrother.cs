@@ -11,21 +11,17 @@ namespace BigBrother
 	{
 		private readonly ICommandHandlerService _commandHandlerService;
 		private readonly ILogger _logger;
-        private readonly IConfigurationService _configurationService;
-
-        private readonly IGlobalConfig _config;
+        private readonly IDiscordConfig _config;
 
 		private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 		private readonly DiscordSocketClient _client;
 		//private readonly CommandHandlerCollection commandHandlerCollection
 
-		public BigBrother(IConfigurationService configurationService, ICommandHandlerService commandHandlerService, ILogger logger)
+		public BigBrother(IDiscordConfig config, ICommandHandlerService commandHandlerService, ILogger logger)
 		{
-            _configurationService = configurationService;
+            _config = config;
 			_commandHandlerService = commandHandlerService;
 			_logger = logger;
-
-			_config = configurationService.Load();
 
 			// TODO We may not need all intents
 			_client = new DiscordSocketClient(
@@ -53,7 +49,7 @@ namespace BigBrother
 			// But it does not create any problems either, so for now I'll do it like that
 			//commandHandlerCollection.BuildSlashCommands(client);
 
-			await _commandHandlerService.CreateCommands(_config, _client);
+			await _commandHandlerService.CreateCommands(_client);
 		}
 
 		private Task Client_SlashCommandExecuted(SocketSlashCommand command)

@@ -4,15 +4,15 @@ using BigBrother.CommandHandling.CommandRequest;
 using BigBrother.Logger;
 using InjectoPatronum;
 
-namespace BigBrother.Commands.Reminder
+namespace BigBrother.Commands.ReminderCommands
 {
-    [SubCommandHandler<Reminder>()]
-    internal class ReminderList : SlashSubCommandHandler
+    [SubCommandHandler<ReminderCommand>()]
+    internal class ReminderListCommand : SlashSubCommandHandler
     {
         public override string Name => "list";
         public override string Description => "List all of your reminders";
 
-        public ReminderList(IDependencyInjector injector, ILogger logger) : base(injector, logger) { }
+        public ReminderListCommand(IDependencyInjector injector, ILogger logger) : base(injector, logger) { }
 
         protected override Task Execute(ICommandRequest command)
         {

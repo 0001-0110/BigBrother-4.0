@@ -1,8 +1,8 @@
-﻿using BigBrother.Extensions;
-using BigBrother.Logger;
+﻿using BigBrother.Logger;
 using Discord;
 using InjectoPatronum;
 using System.Reflection;
+using UtilityMinistry.Extensions;
 
 namespace BigBrother.CommandHandling
 {
