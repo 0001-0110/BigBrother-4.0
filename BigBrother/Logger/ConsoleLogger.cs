@@ -1,19 +1,34 @@
-﻿using Discord;
+﻿using BigBrother.Utilities.Extensions;
+using Discord;
 
 namespace BigBrother.Logger
 {
-	internal class ConsoleLogger : Logger
-	{
-		public ConsoleLogger(LogSeverity logSeverity) : base(logSeverity) { }
+    internal class ConsoleLogger : Logger
+    {
+        public ConsoleLogger(LogSeverity logSeverity) : base(logSeverity) { }
 
-		protected override Task Log(object? message, Exception? exception = null)
-		{
-			Console.WriteLine(message);
+        protected override Task LogInternal(LogSeverity severity, object? message, Exception? exception)
+        {
+            Console.ForegroundColor = severity switch
+            {
+                LogSeverity.Critical => ConsoleColor.DarkRed,
+                LogSeverity.Error => ConsoleColor.Red,
+                LogSeverity.Warning => ConsoleColor.Yellow,
+                LogSeverity.Info => ConsoleColor.White,
+                LogSeverity.Verbose => ConsoleColor.Blue,
+                LogSeverity.Debug => ConsoleColor.Green,
+                _ => throw new ArgumentException("How did we get here ?"),
+            };
+            Console.WriteLine(message);
 
-			if (exception != null)
-				Console.Error.WriteLine(exception.Message);
+            if (exception != null)
+            {
+                Console.Error.WriteLine(exception.Message);
+                Console.Error.WriteLine(exception.StackTrace!.Indent(1));
+            }
 
-			return Task.CompletedTask;
-		}
-	}
+            Console.ResetColor();
+            return Task.CompletedTask;
+        }
+    }
 }

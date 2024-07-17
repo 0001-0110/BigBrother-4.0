@@ -11,13 +11,13 @@ namespace BigBrother.Logger
 			this.logSeverity = logSeverity;
 		}
 
-		protected abstract Task Log(object? message, Exception? exception = null);
+		protected abstract Task LogInternal(LogSeverity severity, object? message, Exception? exception);
 
-		public async Task Log(LogSeverity severity, object? message, Exception? exception = null)
+        public async Task Log(LogSeverity severity, object? message, Exception? exception = null)
 		{
 			if (severity > logSeverity)
 				return;
-			await Log($"[{DateTime.Now.ToLongTimeString()}] {message}", exception);
+			await LogInternal(severity, $"[{DateTime.Now.ToLongTimeString()}] {message}", exception);
 		}
 
 		public Task LogCritical(object? message, Exception? exception = null)

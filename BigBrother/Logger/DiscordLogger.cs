@@ -8,7 +8,7 @@ namespace BigBrother.Logger
 		{
 		}
 
-		protected override Task Log(object? message, Exception? exception = null)
+		protected override Task LogInternal(LogSeverity severity, object? message, Exception? exception = null)
 		{
 			throw new NotImplementedException();
 		}
