@@ -13,6 +13,11 @@ namespace BigBrother
 	{
 		public static DiscordSocketClient Client { get; private set; }
 
+        public static bool IsCurrentUser(IUser user)
+        {
+            return Client.CurrentUser.Id == user.Id;
+        }
+
         private readonly IConfigurationService _configurationService;
 		private readonly ICommandHandlerService _commandHandlerService;
 		private readonly IMessageHandlerService _messageHandlerService;

@@ -17,7 +17,7 @@ namespace BigBrother.Messages
         {
             _logger = logger;
 
-            _handlers = [injector.Instantiate<SelfMentionHandler>()];
+            _handlers = [injector.Instantiate<ReplyHandler>()];
         }
 
         // Send the message to all the message handlers, catching all potential errors at the same time, and do not wait for the handlers to finish

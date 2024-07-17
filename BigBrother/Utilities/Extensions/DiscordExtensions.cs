@@ -9,5 +9,19 @@ namespace BigBrother.Utilities.Extensions
         {
             return message.Channel.SendMessageAsync(text, messageReference: new MessageReference(message.Id));
         }
+
+        private static async Task<IEnumerable<IMessage>> GetReplyChain(ISocketMessageChannel channel, IMessage message)
+        {
+            if (!message.Reference?.MessageId.IsSpecified ?? true)
+                return [message];
+
+            IMessage previousMessage = await channel.GetMessageAsync(message.Reference!.MessageId.Value);
+            return (await GetReplyChain(channel, previousMessage)).Append(message);
+        }
+
+        public static Task<IEnumerable<IMessage>> GetReplyChain(this SocketMessage message)
+        {
+            return GetReplyChain(message.Channel, message);
+        }
     }
 }

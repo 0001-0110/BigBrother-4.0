@@ -11,7 +11,10 @@ namespace BigBrother.Logger
 			Console.WriteLine(message);
 
 			if (exception != null)
+            {
 				Console.Error.WriteLine(exception.Message);
+                Console.Error.WriteLine(exception.StackTrace);
+            }
 
 			return Task.CompletedTask;
 		}
