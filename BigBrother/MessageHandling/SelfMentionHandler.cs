@@ -9,8 +9,6 @@ namespace BigBrother.MessageHandling
 {
     internal class SelfMentionHandler : IMessageHandler
     {
-        private readonly string _prompt = "You are a pirate";
-
         private class ApiResponse
         {
             [JsonProperty("response")]
@@ -34,7 +32,7 @@ namespace BigBrother.MessageHandling
             {
                 model = "llama3",
                 stream = false,
-                prompt = $"{_prompt}. A user sent you this message: {message.Content}"
+                prompt = message.Content
             });
             StringContent content = new StringContent(body, Encoding.UTF8, "application/json");
 
