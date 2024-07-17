@@ -4,12 +4,16 @@ WORKDIR /app
 # Copy project files
 COPY BigBrother.sln ./
 COPY BigBrother/BigBrother.csproj ./BigBrother/
+COPY RogerRoger/RogerRoger.csproj ./RogerRoger/
+COPY UtilityMinistry/UtilityMinistry.csproj ./UtilityMinistry/
 COPY InjectoPatronum/InjectoPatronum/InjectoPatronum.csproj ./InjectoPatronum/InjectoPatronum/
 # Restore dependencies
 RUN dotnet restore
 
 # Copy everything
 COPY BigBrother/ ./BigBrother/
+COPY RogerRoger/ ./RogerRoger/
+COPY UtilityMinistry/ ./UtilityMinistry/
 COPY InjectoPatronum/InjectoPatronum/ ./InjectoPatronum/InjectoPatronum/
 # Build and publish a release
 RUN dotnet publish -c Release -o out
