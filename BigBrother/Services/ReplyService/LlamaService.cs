@@ -1,5 +1,6 @@
 using System.Text;
 using BigBrother.Logger;
+using BigBrother.Utilities.Extensions;
 using Discord;
 using Newtonsoft.Json;
 
@@ -68,7 +69,11 @@ namespace BigBrother.Services.ReplyService
 
         public async Task<string?> GenerateReply(IEnumerable<IMessage> messages)
         {
-            string body = new LlamaRequest(messages.Select(message => new LlamaRequest.Message(BigBrother.IsCurrentUser(message.Author) ? "assistant" : "user", message.Content))).ToJson();
+            string body = new LlamaRequest(messages
+                .Select(message => new LlamaRequest.Message(
+                    BigBrother.IsCurrentUser(message.Author) ? "assistant" : "user",
+                    $"User {(message.Author as IGuildUser)!.DisplayName}: {message.GetPreProcessedContent()}"))).ToJson();
+            await _logger.LogDebug(body);
             StringContent content = new StringContent(body, Encoding.UTF8, "application/json");
 
             await _logger.LogDebug("Sending LLM request");

@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Discord;
 using Discord.WebSocket;
 
@@ -22,6 +23,12 @@ namespace BigBrother.Utilities.Extensions
         public static Task<IEnumerable<IMessage>> GetReplyChain(this SocketMessage message)
         {
             return GetReplyChain(message.Channel, message);
+        }
+
+        public static string GetPreProcessedContent(this IMessage message)
+        {
+            return new Regex("<@[0-9]+>").Replace(message.Content,
+                match => (message.Channel.GetUserAsync(ulong.Parse(match.Value[2..^1])).AwaitSync() as IGuildUser)!.DisplayName);
         }
     }
 }
