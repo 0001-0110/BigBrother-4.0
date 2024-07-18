@@ -1,6 +1,2 @@
 #!/bin/sh
-
-/bin/ollama serve &
-sleep 5s
-/bin/ollama run llama3
-wait
+docker compose exec ollama ollama run llama3
