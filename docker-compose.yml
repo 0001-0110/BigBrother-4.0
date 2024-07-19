@@ -1,4 +1,10 @@
 services:
+  ollama:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./LlamaDrama/ollama:/root/.ollama
   trek:
     build:
       context: ./Trek
@@ -11,5 +17,6 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - trek
+      - ollama
     volumes:
       - ./BigBrotherConfig/:/app/BigBrotherConfig/

@@ -3,6 +3,8 @@ using BigBrother.Logger;
 using BigBrother.Configuration;
 using Discord;
 using InjectoPatronum;
+using BigBrother.Messages;
+using BigBrother.Services.ReplyService;
 
 namespace BigBrother
 {
@@ -16,7 +18,9 @@ namespace BigBrother
 			IDependencyInjector injector = new DependencyInjector()
 				.MapSingleton<ILogger, ConsoleLogger>(LogSeverity.Debug)
 				.MapSingleton<IConfigurationService, JsonConfigurationService>(Path.Combine(args[0], "appsettings.json"))
-				.MapSingleton<ICommandHandlerService, SlashCommandHandlerService>();
+				.MapSingleton<ICommandHandlerService, SlashCommandHandlerService>()
+                .MapSingleton<IReplyService, LlamaService>()
+				.MapSingleton<IMessageHandlerService, MessageHandlerService>();
 
 			BigBrother bot = injector.Instantiate<BigBrother>()!;
 			// Graceful exit in case of keyboard interupt
