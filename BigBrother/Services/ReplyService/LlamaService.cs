@@ -8,7 +8,9 @@ namespace BigBrother.Services.ReplyService
 {
     internal class LlamaService : IReplyService
     {
-        private readonly string _url = "http://ollama:11434/api/chat";
+        private static readonly string _url = "http://ollama:11434/api/chat";
+
+        private static string Prompt => $"You are a discord bot named Big Brother. Your task is to be helpful when someone asks you a question, and to be funny otherwise, using a dry sens of humor. Keep the messages short, and always start by 'User Big Brother:'";
 
         private class LlamaRequest
         {
@@ -38,7 +40,9 @@ namespace BigBrother.Services.ReplyService
 
             public LlamaRequest(IEnumerable<Message> messages)
             {
-                _messages = messages;
+                _messages = messages
+                    // Add the prompt to give the bot its personnality
+                    .Prepend(new Message("system", Prompt));
             }
 
             public string ToJson()
@@ -73,7 +77,6 @@ namespace BigBrother.Services.ReplyService
                 .Select(message => new LlamaRequest.Message(
                     BigBrother.IsCurrentUser(message.Author) ? "assistant" : "user",
                     $"User {(message.Author as IGuildUser)!.DisplayName}: {message.GetPreProcessedContent()}"))).ToJson();
-            await _logger.LogDebug(body);
             StringContent content = new StringContent(body, Encoding.UTF8, "application/json");
 
             await _logger.LogDebug("Sending LLM request");
@@ -89,7 +92,7 @@ namespace BigBrother.Services.ReplyService
                 }
 
                 await _logger.LogDebug("LLM request succeded");
-                return JsonConvert.DeserializeObject<LlamaResponse>(await response.Content.ReadAsStringAsync())?.Message.Content;
+                return JsonConvert.DeserializeObject<LlamaResponse>(await response.Content.ReadAsStringAsync())?.Message.Content.Remove("User Big Brother:");
             }
         }
     }
