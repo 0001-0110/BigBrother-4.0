@@ -21,7 +21,7 @@ namespace RogerRoger.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_connectionString);
+            optionsBuilder.UseNpgsql(_connectionString);
             //optionsBuilder.LogTo(message => _logger.LogVerbose(message));
         }
 

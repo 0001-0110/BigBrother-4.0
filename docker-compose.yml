@@ -1,4 +1,14 @@
 services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "roger_roger"
+      POSTGRES_USER: "big_brother"
+      POSTGRES_PASSWORD: "test"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
   trek:
     build:
       context: ./Trek
@@ -10,6 +20,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     depends_on:
+      - postgres
       - trek
     volumes:
       - ./BigBrotherConfig/:/app/BigBrotherConfig/
