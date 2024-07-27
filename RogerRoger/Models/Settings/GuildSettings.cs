@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RogerRoger.Models.Settings
 {
-    [Table("guildsettings")]
+    [Table("GuildSettings")]
     public class GuildSettings : IModel<ulong>
     {
         [Key]

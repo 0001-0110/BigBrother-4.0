@@ -5,7 +5,7 @@ using InjectoPatronum;
 
 namespace BigBrother.Commands.RoleCommands
 {
-    [CommandHandler]
+    //[CommandHandler]
     internal class Role : SlashCommandHandler
     {
         public override string Name => "role";
