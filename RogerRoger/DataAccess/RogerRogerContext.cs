@@ -16,6 +16,8 @@ namespace RogerRoger.DataAccess
         public RogerRogerContext(IDbConfig config)
         {
             _connectionString = config.ConnectionString;
+            // Weird to have this in the constructor, but I don't know where else to put it
+            Database.EnsureCreated();
             //_logger = logger;
         }
 
@@ -23,11 +25,6 @@ namespace RogerRoger.DataAccess
         {
             optionsBuilder.UseNpgsql(_connectionString);
             //optionsBuilder.LogTo(message => _logger.LogVerbose(message));
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            
         }
     }
 }

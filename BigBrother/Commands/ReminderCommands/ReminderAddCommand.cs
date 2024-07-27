@@ -30,7 +30,7 @@ namespace BigBrother.Commands.ReminderCommands
             // TODO Get the real date from the command
             DateTime date = DateTime.Now;
             string text = _textOption.GetValue(command)!;
-            _reminderRepository.Add(new Reminder(date, text));
+            _reminderRepository.Add(new Reminder(command.Sender.Id, date, text));
             return command.Respond($"I will remind you {text} the {date}");
         }
     }
