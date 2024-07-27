@@ -10,7 +10,6 @@ namespace BigBrother.Commands.QuoteCommands
     internal class ConfigQuote : SlashSubCommandHandler
     {
         public override string Name => "quote";
-        public override string Description => "Quote configuration";
 
         public ConfigQuote(IDependencyInjector injector, ILogger logger) : base(injector, logger) { }
     }

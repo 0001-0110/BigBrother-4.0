@@ -3,7 +3,7 @@ using BigBrother.CommandHandling.Attributes;
 using BigBrother.Logger;
 using InjectoPatronum;
 
-namespace BigBrother.Commands.Quote
+namespace BigBrother.Commands.QuoteCommands
 {
     [CommandHandler]
     internal class Quote : SlashCommandHandler

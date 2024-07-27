@@ -1,5 +1,4 @@
-﻿using BigBrother.Extensions;
-using BigBrother.Logger;
+﻿using BigBrother.Logger;
 using BigBrother.Messages;
 using BigBrother.Services.ReplyService;
 using BigBrother.Utilities.Extensions;

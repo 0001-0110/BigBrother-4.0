@@ -1,9 +1,9 @@
 ﻿using BigBrother.CommandHandling.Attributes;
 using BigBrother.CommandHandling.CommandRequest;
-using BigBrother.Extensions;
 using BigBrother.Logger;
 using BigBrother.Utilities;
 using InjectoPatronum;
+using UtilityMinistry.Extensions;
 
 namespace BigBrother.CommandHandling
 {
@@ -14,7 +14,7 @@ namespace BigBrother.CommandHandling
         protected readonly IDictionary<string, TSubCommandHandler> _subCommandHandlers;
 
         public abstract string Name { get; }
-        public abstract string Description { get; }
+        public virtual string Description => "No description provided";
 
         protected CommandHandlerBase(IDependencyInjector injector, ILogger logger)
         {

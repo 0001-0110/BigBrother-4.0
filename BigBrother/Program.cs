@@ -1,14 +1,16 @@
 ﻿using BigBrother.CommandHandling;
-using BigBrother.Logger;
 using BigBrother.Configuration;
+using BigBrother.Logger;
 using Discord;
 using InjectoPatronum;
 using BigBrother.Messages;
 using BigBrother.Services.ReplyService;
+using RogerRoger.Configuration;
+using RogerRoger.DataAccess;
 
 namespace BigBrother
 {
-	internal class Program
+    internal class Program
 	{
 		static async Task<int> Main(string[] args)
 		{
@@ -17,7 +19,8 @@ namespace BigBrother
 
 			IDependencyInjector injector = new DependencyInjector()
 				.MapSingleton<ILogger, ConsoleLogger>(LogSeverity.Debug)
-				.MapSingleton<IConfigurationService, JsonConfigurationService>(Path.Combine(args[0], "appsettings.json"))
+				.MapSingleton<IDbConfig, IDiscordConfig, JsonConfig>(JsonConfig.Load(Path.Combine(args[0], "appsettings.json")))
+				.MapSingleton<RogerRogerContext>()
 				.MapSingleton<ICommandHandlerService, SlashCommandHandlerService>()
                 .MapSingleton<IReplyService, LlamaService>()
 				.MapSingleton<IMessageHandlerService, MessageHandlerService>();

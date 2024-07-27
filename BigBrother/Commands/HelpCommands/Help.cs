@@ -1,12 +1,11 @@
 ﻿using BigBrother.CommandHandling;
 using BigBrother.CommandHandling.Attributes;
 using BigBrother.Logger;
-using Discord.Interactions;
 using InjectoPatronum;
 
 namespace BigBrother.Commands.HelpCommands
 {
-    [CommandHandler]
+    //[CommandHandler]
     internal class Help : SlashCommandHandler
     {
         public override string Name => "help";
