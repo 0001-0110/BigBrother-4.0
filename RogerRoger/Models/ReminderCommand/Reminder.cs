@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RogerRoger.Models.ReminderCommand
 {
-    [Table("reminders")]
+    [Table("Reminders")]
     public class Reminder : IModel<int>
     {
         [Key]

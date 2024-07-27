@@ -1,5 +1,4 @@
-﻿using RogerRoger.Models.Extensions;
-using RogerRoger.Models.Settings;
+﻿using RogerRoger.Models.Settings;
 
 namespace RogerRoger.DataAccess.Repositories
 {
@@ -7,10 +6,19 @@ namespace RogerRoger.DataAccess.Repositories
     {
         public GuildSettingsRepository(RogerRogerContext context) : base(context) { }
 
+        public GuildSettings GetOrCreate(ulong id)
+        {
+            return GetById(id) ?? Create(id);
+        }
+
         public GuildSettings? GetById(ulong id)
         {
-            GuildSettingsExtensions.Repository = this;
             return _context.GuildSettings.Find(id);
+        }
+
+        public GuildSettings Create(ulong id)
+        {
+            return _context.GuildSettings.Add(new GuildSettings(id)).Entity;
         }
 
         public ulong Add(GuildSettings guildSettings)
