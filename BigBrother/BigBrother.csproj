@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="../InjectoPatronum/InjectoPatronum/InjectoPatronum.csproj" />
     <ProjectReference Include="..\RogerRoger\RogerRoger.csproj" />
+    <ProjectReference Include="..\Trek\Trek\Trek.csproj" />
     <ProjectReference Include="..\UtilityMinistry\UtilityMinistry.csproj" />
   </ItemGroup>
 
