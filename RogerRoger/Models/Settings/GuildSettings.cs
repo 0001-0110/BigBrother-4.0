@@ -10,5 +10,9 @@ namespace RogerRoger.Models.Settings
         public ulong Id { get; set; }
 
         public ulong QuoteChannelId { get; set; }
+
+        // TODO
+        //[MaxLength()]
+        public string? TrekPath { get; set; }
     }
 }

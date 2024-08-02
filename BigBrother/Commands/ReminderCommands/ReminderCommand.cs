@@ -9,7 +9,6 @@ namespace BigBrother.Commands.ReminderCommands
     internal class ReminderCommand : SlashCommandHandler
     {
         public override string Name => "reminder";
-        public override string Description => "Missing description";
 
         public ReminderCommand(IDependencyInjector injector, ILogger logger) : base(injector, logger) { }
     }

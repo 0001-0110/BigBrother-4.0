@@ -11,8 +11,6 @@ namespace BigBrother.Commands.HelpCommands
         public override string Name => "help";
         public override string Description => "Stop it, get some help";
 
-        public Help(IDependencyInjector injector, ILogger logger) : base(injector, logger)
-        {
-        }
+        public Help(IDependencyInjector injector, ILogger logger) : base(injector, logger) { }
     }
 }

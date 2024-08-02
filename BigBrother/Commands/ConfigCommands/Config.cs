@@ -10,7 +10,6 @@ namespace BigBrother.Commands.ConfigCommands
     internal class Config : SlashCommandHandler
     {
         public override string Name => "config";
-        public override string Description => "Set the bot configuration for this specific guild";
 
         public Config(IDependencyInjector injector, ILogger logger) : base(injector, logger) { }
 

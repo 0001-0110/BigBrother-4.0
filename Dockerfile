@@ -7,6 +7,8 @@ COPY BigBrother/BigBrother.csproj ./BigBrother/
 COPY RogerRoger/RogerRoger.csproj ./RogerRoger/
 COPY UtilityMinistry/UtilityMinistry.csproj ./UtilityMinistry/
 COPY InjectoPatronum/InjectoPatronum/InjectoPatronum.csproj ./InjectoPatronum/InjectoPatronum/
+COPY Trek/Trek/Trek.csproj ./Trek/Trek/
+COPY Trek/Graphium/Graphium/Graphium.csproj ./Trek/Graphium/Graphium/
 # Restore dependencies
 RUN dotnet restore
 
@@ -15,8 +17,10 @@ COPY BigBrother/ ./BigBrother/
 COPY RogerRoger/ ./RogerRoger/
 COPY UtilityMinistry/ ./UtilityMinistry/
 COPY InjectoPatronum/InjectoPatronum/ ./InjectoPatronum/InjectoPatronum/
+COPY Trek/Trek/ ./Trek/Trek/
+COPY Trek/Graphium/Graphium/ ./Trek/Graphium/Graphium
 # Build and publish a release
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -c Release --output out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/sdk:8.0

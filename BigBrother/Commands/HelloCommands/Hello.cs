@@ -17,7 +17,7 @@ namespace BigBrother.Commands.HelloCommands
 
         public Hello(IDependencyInjector injector, ILogger logger) : base(injector, logger) { }
 
-        protected override Task Execute(ICommandRequest command)
+        protected override Task Execute(ICommandRequest command, params object[] args)
         {
             IUser user = _userOption.GetValue(command) ?? command.Sender;
             return command.Respond($"Hello {MentionUtils.MentionUser(user.Id)}");

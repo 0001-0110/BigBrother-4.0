@@ -14,7 +14,7 @@ namespace BigBrother.Commands.ReminderCommands
 
         public ReminderListCommand(IDependencyInjector injector, ILogger logger) : base(injector, logger) { }
 
-        protected override Task Execute(ICommandRequest command)
+        protected override Task Execute(ICommandRequest command, params object[] args)
         {
             return command.Respond("Still working on it");
         }

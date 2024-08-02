@@ -17,7 +17,7 @@ namespace BigBrother.Commands.RoleCommands
 
         public RoleRemove(IDependencyInjector injector, ILogger logger) : base(injector, logger) { }
 
-        protected override async Task Execute(ICommandRequest command)
+        protected override async Task Execute(ICommandRequest command, params object[] args)
         {
             IRole role = _roleOption.GetValue(command)!;
 

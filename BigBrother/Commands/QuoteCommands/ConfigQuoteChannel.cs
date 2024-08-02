@@ -25,7 +25,7 @@ namespace BigBrother.Commands.QuoteCommands
             _guildSettingsRepository = injector.Instantiate<GuildSettingsRepository>();
         }
 
-        protected override async Task Execute(ICommandRequest command)
+        protected override async Task Execute(ICommandRequest command, params object[] args)
         {
             if (_channelOption.GetValue(command) is not ITextChannel newQuoteChannel)
             {

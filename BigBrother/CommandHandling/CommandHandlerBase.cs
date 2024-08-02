@@ -36,16 +36,16 @@ namespace BigBrother.CommandHandling
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        public Task Call(ICommandRequest command)
+        public virtual Task Call(ICommandRequest command, params object[] args)
         {
             if (_subCommandHandlers.Count == 0)
-                return Execute(command);
+                return Execute(command, args);
 
             ICommandRequest subCommand = command.GetSubCommand();
-            return _subCommandHandlers[subCommand.Name].Call(subCommand);
+            return _subCommandHandlers[subCommand.Name].Call(subCommand, args);
         }
 
-        protected virtual Task Execute(ICommandRequest command)
+        protected virtual Task Execute(ICommandRequest command, params object[] args)
         {
             // If you encounter this error, you either forgot to add an implementation to your final command, or you did not
             // add correctly the sub command handlers

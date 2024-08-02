@@ -3,10 +3,10 @@
 namespace BigBrother.CommandHandling
 {
     internal interface ICommandHandlerBase
-	{
-		string Name { get; }
-		string Description { get; }
+    {
+        string Name { get; }
+        string Description { get; }
 
-		Task Call(ICommandRequest command);
-	}
+        Task Call(ICommandRequest command, params object[] args);
+    }
 }

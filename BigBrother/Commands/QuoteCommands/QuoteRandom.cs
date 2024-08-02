@@ -46,7 +46,7 @@ namespace BigBrother.Commands.QuoteCommands
             return (await LoadQuotes(guild))?.GetRandom();
         }
 
-        protected override async Task Execute(ICommandRequest command)
+        protected override async Task Execute(ICommandRequest command, params object[] args)
         {
             await command.Respond(await GetRandomQuote(command.Guild!) ?? "Could not find any quote\nCheck that the quote channel is set and contains at least one quote");
         }

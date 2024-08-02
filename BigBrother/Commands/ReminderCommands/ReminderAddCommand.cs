@@ -3,7 +3,6 @@ using BigBrother.CommandHandling.Attributes;
 using BigBrother.CommandHandling.CommandRequest;
 using BigBrother.Logger;
 using InjectoPatronum;
-using RogerRoger.DataAccess;
 using RogerRoger.DataAccess.Repositories;
 using RogerRoger.Models.ReminderCommand;
 
@@ -25,7 +24,7 @@ namespace BigBrother.Commands.ReminderCommands
             _reminderRepository = injector.Instantiate<ReminderRepository>();
         }
 
-        protected override Task Execute(ICommandRequest command)
+        protected override Task Execute(ICommandRequest command, params object[] args)
         {
             // TODO Get the real date from the command
             DateTime date = DateTime.Now;

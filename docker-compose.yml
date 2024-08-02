@@ -15,12 +15,6 @@ services:
       - "5432:5432"
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
-  trek:
-    build:
-      context: ./Trek
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
   big-brother:
     build:
       context: ./
