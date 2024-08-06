@@ -7,6 +7,7 @@ using BigBrother.Messages;
 using BigBrother.Services.ReplyService;
 using RogerRoger.Configuration;
 using RogerRoger.DataAccess;
+using Trek.Runners;
 
 namespace BigBrother
 {
@@ -21,6 +22,7 @@ namespace BigBrother
 				.MapSingleton<ILogger, ConsoleLogger>(LogSeverity.Debug)
 				.MapSingleton<IDbConfig, IDiscordConfig, JsonConfig>(JsonConfig.Load(Path.Combine(args[0], "appsettings.json")))
 				.MapSingleton<RogerRogerContext>()
+                .Map<IRunner, ChoiceRunner>()
 				.MapSingleton<ICommandHandlerService, SlashCommandHandlerService>()
                 .MapSingleton<IReplyService, LlamaService>()
 				.MapSingleton<IMessageHandlerService, MessageHandlerService>();

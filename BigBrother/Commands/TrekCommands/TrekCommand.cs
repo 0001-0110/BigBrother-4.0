@@ -14,7 +14,7 @@ namespace BigBrother.Commands.TrekCommands
     {
         public class Room
         {
-            public TrekGame? Game { get; }
+            public TrekGame Game { get; }
             public Dictionary<ulong, Player> Players { get; }
 
             public Room(TrekGame game)
@@ -24,6 +24,7 @@ namespace BigBrother.Commands.TrekCommands
             }
         }
 
+        private readonly IDependencyInjector _injector;
         private readonly GuildSettingsRepository _guildSettingsRepository;
         private Dictionary<ulong, Room> _rooms;
 
@@ -31,26 +32,31 @@ namespace BigBrother.Commands.TrekCommands
 
         public TrekCommand(IDependencyInjector injector, ILogger logger) : base(injector, logger)
         {
+            _injector = injector;
             _guildSettingsRepository = injector.Instantiate<GuildSettingsRepository>();
             _rooms = new Dictionary<ulong, Room>();
         }
 
-        public override Task Call(ICommandRequest command, params object[] args)
+        public override async Task Call(ICommandRequest command, params object[] args)
         {
-            // TODO Remove
-            //return command.Respond("Coming soon !");
-
-            if (!_rooms.TryGetValue(command.Guild.Id, out Room? room) || room.Game == null)
+            // Load the game when the first player tries to interact with it
+            if (!_rooms.ContainsKey(command.Guild.Id))
             {
+                await command.Respond("Loading the game...");
+                await Task.Delay(1000);
                 //string? path = _guildSettingsRepository.GetById(command.Guild.Id)?.TrekPath;
-                string? path = "";
+                string? path = "./StoryVault/short_test/";
                 if (path == null)
-                    return command.Respond("Trek is not available for this guild");
+                {
+                    await command.Respond("Trek is not available for this guild");
+                    await _logger.LogWarning($"Guild {command.Guild.Name} does not have a valid trek path");
+                    return;
+                }
 
-                _rooms[command.Guild.Id] = new Room(TrekGame.Load(path));
+                _rooms[command.Guild.Id] = new Room(_injector.Execute<TrekGame>(typeof(TrekGame), TrekGame.Load, path)!);
             }
 
-            return base.Call(command, _rooms[command.Guild.Id]);
+            await base.Call(command, _rooms[command.Guild.Id]);
         }
     }
 }

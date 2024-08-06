@@ -31,6 +31,7 @@ namespace BigBrother.CommandHandling
             };
         }
 
+        // TODO Change this so that sub command handlers have args but not top command handlers
         /// <summary>
         /// Traverse the tree of commands to find the correct command to execute
         /// </summary>

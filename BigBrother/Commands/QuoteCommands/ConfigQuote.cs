@@ -6,7 +6,7 @@ using InjectoPatronum;
 
 namespace BigBrother.Commands.QuoteCommands
 {
-    [SubCommandHandler<Config>()]
+    [SubCommandHandler<ConfigCommand>()]
     internal class ConfigQuote : SlashSubCommandHandler
     {
         public override string Name => "quote";

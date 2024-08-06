@@ -25,8 +25,12 @@ RUN dotnet publish -c Release --output out
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/sdk:8.0
 WORKDIR /app
+# Copy the executable
 COPY --from=build-env /app/out .
+# Copy the config
 COPY ./BigBrotherConfig/appsettings.json ./BigBrotherConfig/
+# Copy the data
+COPY ./StoryVault ./StoryVault/
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "BigBrother.dll" ]
 CMD [ "./BigBrotherConfig/" ]

@@ -14,5 +14,15 @@ namespace RogerRoger.Models.Settings
         // TODO
         //[MaxLength()]
         public string? TrekPath { get; set; }
+
+        // [InverseProperty("Guild")]
+        // public List<GuildRole> Roles { get; set; } = new List<GuildRole>();
+
+        internal GuildSettings() { }
+
+        public GuildSettings(ulong id)
+        {
+            Id = id;
+        }
     }
 }

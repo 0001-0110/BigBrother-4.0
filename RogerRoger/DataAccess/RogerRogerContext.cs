@@ -11,6 +11,8 @@ namespace RogerRoger.DataAccess
         //private readonly ILogger _logger;
 
         internal DbSet<GuildSettings> GuildSettings { get; private set; }
+        internal DbSet<GuildRole> GuildRoles { get; private set; }
+
         internal DbSet<Reminder> Reminders { get; private set; }
 
         public RogerRogerContext(IDbConfig config)

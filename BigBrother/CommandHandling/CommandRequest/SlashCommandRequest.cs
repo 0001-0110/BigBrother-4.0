@@ -27,6 +27,8 @@ namespace BigBrother.CommandHandling.CommandRequest
 
         public Task Respond(string text)
         {
+            if (_command.HasResponded)
+                return _command.ModifyOriginalResponseAsync(message => { message.Content = text; });
             return _command.RespondAsync(text);
         }
 

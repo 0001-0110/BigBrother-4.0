@@ -7,3 +7,6 @@
 [submodule "BigBrotherConfig"]
 	path = BigBrotherConfig
 	url = git@github.com:0001-0110/BigBrotherConfig.git
+[submodule "StoryVault"]
+	path = StoryVault
+	url = git@github.com:0001-0110/StoryVault.git

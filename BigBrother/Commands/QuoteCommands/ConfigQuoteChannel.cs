@@ -6,7 +6,6 @@ using Discord;
 using InjectoPatronum;
 using RogerRoger.DataAccess.Repositories;
 using RogerRoger.Models.Settings;
-using RogerRoger.Models.Extensions;
 
 namespace BigBrother.Commands.QuoteCommands
 {
@@ -33,10 +32,8 @@ namespace BigBrother.Commands.QuoteCommands
                 return;
             }
 
-            // TODO Get or create
-            GuildSettings? guildConfig = _guildSettingsRepository.GetById(newQuoteChannel.GuildId)
-                .OrCreate(() => new GuildSettings() { Id = newQuoteChannel.GuildId, QuoteChannelId = newQuoteChannel.Id });
-            guildConfig.QuoteChannelId = newQuoteChannel.Id;
+            GuildSettings? guildSettings = args[0] as GuildSettings;
+            guildSettings.QuoteChannelId = newQuoteChannel.Id;
             _guildSettingsRepository.SaveChanges();
 
             await command.Respond($"Quote channel updated to {newQuoteChannel.Name}");
