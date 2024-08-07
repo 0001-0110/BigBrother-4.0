@@ -32,7 +32,16 @@ namespace BigBrother.CommandHandling
         public override Task ExecuteCommand(ICommandRequest command)
         {
             _logger.LogInfo($"Received command request {command}");
-            _commandHandlers[command.Name].Call(command);
+            Task.Run(async () => {
+                try
+                {
+                    await _commandHandlers[command.Name].Call(command);
+                }
+                catch (Exception exception)
+                {
+                    await _logger.LogError($"An error occured during the handling of the command ({command.Name})", exception);
+                }
+            });
             return Task.CompletedTask;
         }
     }
