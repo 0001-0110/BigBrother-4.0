@@ -1,5 +1,4 @@
-﻿using BigBrother.Utilities.Extensions;
-using Discord;
+﻿using Discord;
 
 namespace BigBrother.Logger
 {
@@ -23,8 +22,7 @@ namespace BigBrother.Logger
 
             if (exception != null)
             {
-                Console.Error.WriteLine(exception.Message);
-                Console.Error.WriteLine(exception.StackTrace!.Indent(1));
+                Console.Error.WriteLine(exception.ToString());
             }
 
             Console.ResetColor();
