@@ -42,10 +42,9 @@ namespace BigBrother.Commands.TrekCommands
             // Load the game when the first player tries to interact with it
             if (!_rooms.ContainsKey(command.Guild.Id))
             {
+                await _logger.LogVerbose("Loading trek game");
                 await command.Respond("Loading the game...");
-                await Task.Delay(1000);
-                //string? path = _guildSettingsRepository.GetById(command.Guild.Id)?.TrekPath;
-                string? path = "./StoryVault/short_test/";
+                string? path = _guildSettingsRepository.GetById(command.Guild.Id)?.TrekPath;
                 if (path == null)
                 {
                     await command.Respond("Trek is not available for this guild");
@@ -53,7 +52,9 @@ namespace BigBrother.Commands.TrekCommands
                     return;
                 }
 
+                // TODO This line crashes
                 _rooms[command.Guild.Id] = new Room(_injector.Execute<TrekGame>(typeof(TrekGame), TrekGame.Load, path)!);
+                await _logger.LogVerbose("Loaded trek game");
             }
 
             await base.Call(command, _rooms[command.Guild.Id]);

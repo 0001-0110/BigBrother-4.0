@@ -15,7 +15,10 @@ namespace BigBrother.Commands.ConfigCommands
 
         public override string Name => "config";
 
-        public ConfigCommand(IDependencyInjector injector, ILogger logger) : base(injector, logger) { }
+        public ConfigCommand(IDependencyInjector injector, ILogger logger) : base(injector, logger)
+        {
+            _guildSettingsRepository = injector.Instantiate<GuildSettingsRepository>();
+        }
 
         public override SlashCommandBuilder CreateCommand()
         {

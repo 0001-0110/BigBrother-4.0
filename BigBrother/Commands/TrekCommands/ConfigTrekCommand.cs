@@ -8,6 +8,7 @@ using RogerRoger.Models.Settings;
 
 namespace BigBrother.Commands.TrekCommands
 {
+    // TODO Move all this into the config trek path command, and add config trek reload command
     [SubCommandHandler<ConfigCommand>]
     internal class ConfigTrekCommand : SlashSubCommandHandler
     {
@@ -22,6 +23,7 @@ namespace BigBrother.Commands.TrekCommands
         {
             GuildSettings? guildSettings = args[0] as GuildSettings;
             guildSettings.TrekPath = _pathOption.GetValue(command);
+            // TODO Missing save
             return command.Respond($"Path updated");
         }
     }
