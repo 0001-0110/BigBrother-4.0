@@ -24,7 +24,7 @@ namespace BigBrother
 				.MapSingleton<RogerRogerContext>()
                 .Map<IRunner, ChoiceRunner>()
 				.MapSingleton<ICommandHandlerService, SlashCommandHandlerService>()
-                .MapSingleton<IReplyService, LlamaService>()
+                .MapSingleton<OllamaService>()
 				.MapSingleton<IMessageHandlerService, MessageHandlerService>();
 
 			BigBrother bot = injector.Instantiate<BigBrother>()!;

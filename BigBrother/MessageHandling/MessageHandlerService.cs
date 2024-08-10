@@ -1,7 +1,7 @@
 ﻿using BigBrother.Logger;
-using BigBrother.MessageHandling;
 using Discord.WebSocket;
 using InjectoPatronum;
+using UtilityMinistry.Extensions;
 
 namespace BigBrother.Messages
 {
@@ -17,7 +17,7 @@ namespace BigBrother.Messages
         {
             _logger = logger;
 
-            _handlers = [injector.Instantiate<ReplyHandler>()];
+            _handlers = typeof(IMessageHandler).GetImplementations().Select(type => injector.Instantiate(type) as IMessageHandler);
         }
 
         // Send the message to all the message handlers, catching all potential errors at the same time, and do not wait for the handlers to finish

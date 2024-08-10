@@ -1,30 +1,34 @@
 using System.Text;
 using BigBrother.Logger;
 using BigBrother.Utilities.Extensions;
-using Discord;
 using Newtonsoft.Json;
 
 namespace BigBrother.Services.ReplyService
 {
-    internal class LlamaService : IReplyService
+    internal class OllamaService
     {
         private static readonly string _url = "http://ollama:11434/api/chat";
 
-        private static string Prompt => $"You are a discord bot named Big Brother. Your task is to be helpful when someone asks you a question, and to be funny otherwise, using a dry sens of humor. Keep the messages short, and always start by 'User Big Brother:'";
-
-        private class LlamaRequest
+        public class OllamaRequest
         {
             public class Message
             {
+                public enum Role
+                {
+                    System,
+                    Assistant,
+                    User,
+                }
+
                 [JsonProperty("role")]
                 private string _role;
 
                 [JsonProperty("content")]
                 private string _content;
 
-                public Message(string role, string content)
+                public Message(Role role, string content)
                 {
-                    _role = role;
+                    _role = role.ToString().ToLower();
                     _content = content;
                 }
             }
@@ -38,11 +42,9 @@ namespace BigBrother.Services.ReplyService
             [JsonProperty("messages")]
             private IEnumerable<Message> _messages;
 
-            public LlamaRequest(IEnumerable<Message> messages)
+            public OllamaRequest(IEnumerable<Message> messages)
             {
-                _messages = messages
-                    // Add the prompt to give the bot its personnality
-                    .Prepend(new Message("system", Prompt));
+                _messages = messages;
             }
 
             public string ToJson()
@@ -64,19 +66,15 @@ namespace BigBrother.Services.ReplyService
         }
 
         private readonly ILogger _logger;
-        private readonly ulong _currentUserId;
 
-        public LlamaService(ILogger logger)
+        public OllamaService(ILogger logger)
         {
             _logger = logger;
         }
 
-        public async Task<string?> GenerateReply(IEnumerable<IMessage> messages)
+        public async Task<string?> Generate(OllamaRequest request)
         {
-            string body = new LlamaRequest(messages
-                .Select(message => new LlamaRequest.Message(
-                    BigBrother.IsCurrentUser(message.Author) ? "assistant" : "user",
-                    $"User {(message.Author as IGuildUser)!.DisplayName}: {message.GetPreProcessedContent()}"))).ToJson();
+            string body = request.ToJson();
             StringContent content = new StringContent(body, Encoding.UTF8, "application/json");
 
             await _logger.LogDebug("Sending LLM request");

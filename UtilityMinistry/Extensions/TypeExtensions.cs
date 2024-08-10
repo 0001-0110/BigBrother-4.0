@@ -19,7 +19,7 @@ namespace UtilityMinistry.Extensions
             if (!@interface.IsInterface)
                 throw new ArgumentException("Can't get implementations of non interface types");
 
-            return (assembly ?? Assembly.GetCallingAssembly()).GetTypes().Where(type => type.HasInterface(@interface));
+            return (assembly ?? Assembly.GetCallingAssembly()).GetTypes().Where(type => type.HasInterface(@interface) && !type.IsAbstract);
         }
 
         public static IEnumerable<FieldInfo> GetFields(this Type type, Type propertyType)

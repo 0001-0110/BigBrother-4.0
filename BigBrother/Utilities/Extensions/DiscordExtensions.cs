@@ -37,9 +37,17 @@ namespace BigBrother.Utilities.Extensions
             return GetReplyChain(message.Channel, message);
         }
 
+        /// <summary>
+        /// Replaces all mentions by the current display name of the user
+        /// </summary>
+        /// <param name="message">The message received</param>
+        /// <returns>The new message with all mentions replaced</returns>
         public static string GetPreProcessedContent(this IMessage message)
         {
+            // Search for all mentions
             return new Regex("<@[0-9]+>").Replace(message.Content,
+                // Replaces it by the display name of the user with the mathcing id
+                // [2..^1] captures the id inside (by removing the '@<' and the '>')
                 match => (message.Channel.GetUserAsync(ulong.Parse(match.Value[2..^1])).AwaitSync() as IGuildUser)!.DisplayName);
         }
     }
