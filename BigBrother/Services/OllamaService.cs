@@ -29,11 +29,11 @@ namespace BigBrother.Services.ReplyService
                 [JsonProperty("images", NullValueHandling = NullValueHandling.Ignore)]
                 public readonly string[]? Images;
 
-                public Message(Role role, string content, string[]? images = null)
+                public Message(Role role, string content, string[] images = null!)
                 {
                     _role = role.ToString().ToLower();
                     _content = content;
-                    Images = images;
+                    Images = images?.Length == 0 ? null : images;
                 }
             }
 
