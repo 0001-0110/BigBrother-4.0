@@ -25,6 +25,7 @@ namespace BigBrother.MessageHandlers
 
         public override async Task Handle(SocketMessage message)
         {
+            return;
             string? reply = await _ollamaService.GenerateText(GenerateRequest(message.Content));
             if (reply != null && reply.ToLower().Contains("yes"))
             {
