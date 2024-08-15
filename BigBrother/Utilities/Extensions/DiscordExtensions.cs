@@ -50,5 +50,13 @@ namespace BigBrother.Utilities.Extensions
                 // [2..^1] captures the id inside (by removing the '@<' and the '>')
                 match => (message.Channel.GetUserAsync(ulong.Parse(match.Value[2..^1])).AwaitSync() as IGuildUser)!.DisplayName);
         }
+
+        public static async Task<string> GetImageAsBase64(this IAttachment attachment)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                return Convert.ToBase64String(await client.GetByteArrayAsync(attachment.Url));
+            }
+        }
     }
 }

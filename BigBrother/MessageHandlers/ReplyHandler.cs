@@ -3,6 +3,7 @@ using BigBrother.Services.ReplyService;
 using BigBrother.Utilities.Extensions;
 using Discord;
 using Discord.WebSocket;
+using UtilityMinistry.Extensions;
 using static BigBrother.Services.ReplyService.OllamaService;
 using static BigBrother.Services.ReplyService.OllamaService.OllamaRequest;
 using static BigBrother.Services.ReplyService.OllamaService.OllamaRequest.Message;
@@ -30,15 +31,17 @@ namespace BigBrother.MessageHandling
 
             using (IDisposable typing = message.Channel.EnterTypingState())
             {
-                OllamaRequest request = new OllamaRequest((await message.GetReplyChain())
-                    .Select(message => new Message(
+                OllamaRequest request = new OllamaRequest((await Task.WhenAll((await message.GetReplyChain())
+                    .Select(async message => new Message(
                         BigBrother.IsCurrentUser(message.Author) ? Role.Assistant : Role.User,
                         // The content of the message (prefixed by the username to allow multi user conversations)
-                        $"User {(message.Author as IGuildUser)!.DisplayName}: {message.GetPreProcessedContent()}"))
+                        $"User {(message.Author as IGuildUser)!.DisplayName}: {message.GetPreProcessedContent()}",
+                        // Download all images associated with this message and convert them to base 64 strings
+                        await Task.WhenAll(message.Attachments.Where(attachment => attachment.ContentType.Contains("image")).Select(attachment => attachment.GetImageAsBase64()))))))
                     // Add the prompt to give the bot its personnality
                     .Prepend(new Message(Role.System, _prompt)));
 
-                string? reply = await _ollamaService.Generate(request);
+                string? reply = await _ollamaService.GenerateText(request);
                 await message.Reply(reply ?? _errorMessage);
             }
         }
